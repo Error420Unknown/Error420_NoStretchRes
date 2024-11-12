@@ -1,20 +1,23 @@
-local isScreenBlackedOut = false
+local usingStretchedres = false
 local kickTimer = 30 -- In Seconds
 
 Citizen.CreateThread(function()
     while true do
         local res = GetIsWidescreen()
 
-        if not res and not isScreenBlackedOut then
-            isScreenBlackedOut = true
-            kickTimer = 30 -- Timer Starts When Stretch Resolution Is Detected
-        elseif res and isScreenBlackedOut then
-            isScreenBlackedOut = false
+        if not res and not usingStretchedres then
+            usingStretchedres = true
+            kickTimer = 30
+        elseif res and usingStretchedres then
+            usingStretchedres = false
         end
 
-        if isScreenBlackedOut then
-            DrawRect(0.5, 0.5, 1.0, 1.0, 0, 0, 0, 240)
-            drawCenteredText("You may not use stretched resolution, change to a normal res. Time remaining: " .. kickTimer .. " seconds")
+        if usingStretchedres then
+            lib.notify({
+                title = 'WARNING!',
+                description = 'Turn Off Stretched Resolution To Prevent Being Kicked!',
+                type = 'error'
+            })
 
             kickTimer = kickTimer - 1
             if kickTimer <= 0 then

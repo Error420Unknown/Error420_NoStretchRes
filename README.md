@@ -1,2 +1,2 @@
 # Error420_NoStretchRes
-FiveM Block Strect Resolution
+FiveM Block Stretch Resolution
